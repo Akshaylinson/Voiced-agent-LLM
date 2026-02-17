@@ -1,0 +1,21 @@
+{
+  "name": "voice-mic-component",
+  "version": "1.0.0",
+  "description": "Reusable microphone component for voice agent integration",
+  "main": "mic-button.js",
+  "scripts": {
+    "serve": "python -m http.server 8080"
+  },
+  "keywords": [
+    "voice",
+    "microphone",
+    "speech-to-text",
+    "web-component",
+    "react"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^18.0.0"
+  }
+}

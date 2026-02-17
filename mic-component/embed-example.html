@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Agent Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .demo-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .description {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .instructions {
+            text-align: left;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        .instructions h3 {
+            margin-top: 0;
+        }
+        .instructions ol {
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🎤 Voice Agent Demo</h1>
+        <p class="description">
+            Click the microphone button below to ask a question using your voice.
+            The system will transcribe your speech, retrieve relevant information,
+            and respond with both text and audio.
+        </p>
+        
+        <!-- Embed the voice mic component -->
+        <voice-mic api="http://localhost:9000"></voice-mic>
+        
+        <div class="instructions">
+            <h3>How to Use:</h3>
+            <ol>
+                <li>Click the blue microphone button to start recording</li>
+                <li>Speak your question clearly</li>
+                <li>Click the red button to stop recording</li>
+                <li>Wait for the system to process your query</li>
+                <li>View the transcript and response text</li>
+                <li>Listen to the audio response</li>
+            </ol>
+            
+            <h3>Example Questions:</h3>
+            <ul>
+                <li>"What is Docker?"</li>
+                <li>"Tell me about Python programming"</li>
+                <li>"What is FastAPI?"</li>
+                <li>"Explain machine learning"</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Load the voice mic component -->
+    <script src="mic-button.js"></script>
+    
+    <!-- Optional: Listen to custom events -->
+    <script>
+        const voiceMic = document.querySelector('voice-mic');
+        
+        voiceMic.addEventListener('transcript', (e) => {
+            console.log('Transcript:', e.detail);
+        });
+        
+        voiceMic.addEventListener('response', (e) => {
+            console.log('Response:', e.detail);
+        });
+        
+        voiceMic.addEventListener('error', (e) => {
+            console.error('Error:', e.detail);
+        });
+    </script>
+</body>
+</html>
