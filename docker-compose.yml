@@ -1,0 +1,73 @@
+services:
+  gateway:
+    build: ./gateway
+    ports:
+      - "9000:9000"
+    environment:
+      - STT_SERVICE_URL=http://stt-service:8001
+      - RAG_SERVICE_URL=http://rag-service:8002
+      - LLM_SERVICE_URL=http://llm-service:8003
+      - TTS_SERVICE_URL=http://tts-service:8004
+    volumes:
+      - ./data/audio:/app/audio
+    networks:
+      - voice-network
+    depends_on:
+      - stt-service
+      - rag-service
+      - llm-service
+      - tts-service
+
+  stt-service:
+    build: ./stt-service
+    ports:
+      - "8001:8001"
+    environment:
+      - MODEL_SIZE=base
+    volumes:
+      - ./models/whisper:/models
+    networks:
+      - voice-network
+
+  rag-service:
+    build: ./rag-service
+    ports:
+      - "8002:8002"
+    environment:
+      - VECTOR_DB_PATH=/data/vectordb
+      - DB_PATH=/data/knowledge.db
+    volumes:
+      - ./data/vectordb:/data/vectordb
+      - ./data/knowledge.db:/data/knowledge.db
+    networks:
+      - voice-network
+
+  llm-service:
+    build: ./llm-service
+    ports:
+      - "8003:8003"
+    environment:
+      - HF_TOKEN=${HF_TOKEN}
+      - MODEL_NAME=${LLM_MODEL_NAME:-TinyLlama/TinyLlama-1.1B-Chat-v1.0}
+    volumes:
+      - ./models/llm:/models
+    networks:
+      - voice-network
+
+  tts-service:
+    build: ./tts-service
+    ports:
+      - "8004:8004"
+    volumes:
+      - ./models/tts:/models
+      - ./data/audio:/app/audio
+    networks:
+      - voice-network
+
+networks:
+  voice-network:
+    driver: bridge
+
+volumes:
+  models:
+  data:
